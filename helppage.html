@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Daily Expenses Application</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url("https://th.bing.com/th/id/OIP.NRB681Y-NXsezEao-ipCaQHaEK?w=294&h=180&c=7&r=0&o=5&pid=1.7.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            //background: rgba(0,0,0,0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            align-items: center;
+        }
+        @supports (-webkit-backdrop-filter:none) or (backdrop-filter: none) {
+            .container {
+                -webkit-backdrop-filter: blur(15px);
+                backdrop-filter: blur(15px);
+            }
+        }
+        h1 {
+            color: #007bff;
+            margin: 0 0 10px;
+        }
+        h2 {
+            color: #0056b3;
+            margin: 15px 0 5px;
+        }
+        section {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none; /* Removes bullet points */
+            padding: 0; /* Removes padding */
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .previous-page {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .previous-page a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: skyblue;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        .previous-page a:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Help Center</h1>
+            <p>Your guide to using the Daily Expenses Application.</p>
+        </header>
+
+        <section>
+            <h2>Overview</h2>
+            <p>The Daily Expenses Application helps you track your spending, categorize expenses, and visualize your financial habits over time.</p>
+        </section>
+
+        <section>
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Add Expenses:</strong> Quickly input your daily expenses.</li>
+                <li><strong>View Reports:</strong> Generate reports to analyze your spending.</li>
+                <li><strong>Set Budgets:</strong> Define budgets for different categories to manage your finances effectively.</li>
+                <li><strong>Export Data:</strong> Export your expenses to CSV for further analysis.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Troubleshooting</h2>
+            <p>If you encounter issues, please refer to the following solutions:</p>
+            <ul>
+                <li><strong>Cannot Add Expense:</strong> Ensure all required fields are filled out correctly.</li>
+                <li><strong>Report Not Generating:</strong> Check your internet connection and try again.</li>
+                <li><strong>Data Not Saving:</strong> Make sure your device has sufficient storage space.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Contact Support</h2>
+            <p>If you need further assistance, please contact our support team at <a href="mailto:support@example.com">support@example.com</a>.</p>
+        </section>
+
+        <div class="previous-page">
+            <a href="javascript:history.back()">Previous Page</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Daily Expenses Application. All rights reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>

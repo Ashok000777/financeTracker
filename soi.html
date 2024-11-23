@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+         body {
+            display: grid;
+            height: 100vh;
+            width: 100%;
+            place-items: center;
+            background-image: url('https://th.bing.com/th/id/OIP.NRB681Y-NXsezEao-ipCaQHaEK?w=294&h=180&c=7&r=0&o=5&pid=1.7.jpg'); /* Correct absolute path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        ::selection {
+            background: #ff80bf;
+        }
+
+         .container {
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            border: 0.1px solid rgba(255, 255, 255, 0.1); 
+            max-width: 350px;
+		display: flex; /* Enable Flexbox for the container */
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center; /* Center elements vertically */
+            align-items: center;
+            width: 100%;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 30px 15px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+            .container {
+                -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+                backdrop-filter: blur(1.5px); /* Frosted glass effect for other browsers */
+            }
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Space below the heading */
+            font-size: 2em; /* Heading size */
+	    text-align: center;
+        }
+        button {
+            padding: 15px 30px; /* Button padding */
+            margin: 10px; /* Space between buttons */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Button font size */
+            transition: background 0.3s ease; /* Transition for hover effect */
+        }
+        .login-btn {
+            background-color: #007BFF; /* Blue background */
+            color: white; /* White text */
+        }
+        .signup-btn {
+            background-color: #28A745; /* Green background */
+            color: white; /* White text */
+        }
+        button:hover {
+            opacity: 0.8; /* Fade effect on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to Finance Tracker</h1>
+    <button class="login-btn" onclick="window.location.href='loginpageh.html';">LOG IN</button>
+<h2>(OR)</h2>
+    <button class="signup-btn" onclick="window.location.href='signpage.html';">SIGN UP</button>
+</div>
+
+</body>
+</html>

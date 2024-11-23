@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Tracker</title>
+    <style>
+ body {
+           display: flex;
+            height: 760px;
+	    width: 100%;
+	    background-image: url('https://th.bing.com/th/id/OIP.NRB681Y-NXsezEao-ipCaQHaEK?w=294&h=180&c=7&r=0&o=5&pid=1.7.jpg');
+            margin: 0;
+            padding: 0;
+	    overflow: hidden; 
+	    background-color: white;
+	     background-size: cover; /* Cover the entire background */
+           background-repeat:no-repeat;
+            background-position: center;
+
+        }
+.navbar {
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            //border: 0.1px solid rgba(255, 255, 255, 0.1); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+	    border-radius: 10px;
+            padding: 14px 20px;
+            transition: all 0.3s ease-in-out;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .navbar {
+    -webkit-backdrop-filter: blur(10px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(10px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+        }
+
+
+            .navbar a {
+         float: left;
+            display: block;
+            color: white;
+            text-align: center;
+	    font-family: Arial, sans-serif;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+	    border-radius: 25px;
+
+    }
+
+    .navbar a:hover, .navbar a.active {
+        background-color: #ddd;
+        color: black;
+    border-radius: 25px;
+    }
+
+    /* Responsive Navbar */
+    .navbar .icon {
+        display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+        .navbar a:not(:first-child) {
+            display: none;
+        }
+
+        .navbar a.icon {
+            float: right;
+            display: block;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .navbar.responsive {
+            flex-direction: column;
+            align-items: flex-start;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .navbar.responsive a {
+            display: block;
+            text-align: left;
+            padding: 14px;
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar.responsive .icon {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    }
+
+    /* Animation for smooth dropdown open */
+    .dropdown:hover .dropdown-content {
+        display: block;
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+ .menu-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .menu-icon {
+        cursor: pointer;
+        font-size: 24px;
+        user-select: none;
+        margin-right: 1020px;
+        color: white;
+        margin-bottom: 0px;
+        margin-top: 15px;
+        bottom: 50%;
+    }
+
+    /* Style for the dropdown menu */
+    .menu-content {
+        display: none;
+        position: absolute;
+        top: 40px; /* Adjust the vertical position as needed */
+        right: 900px; /* Adjust this value to move the menu content to the right */
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        text-align: left;
+        border-radius: 5px;
+    }
+
+    .menu-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        white-space: nowrap;
+    }
+
+    .menu-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Show the dropdown menu when active */
+    .menu-container.active .menu-content {
+        display: block;
+    }
+  
+    .section {
+        height: 100%;
+        width: 100%;
+        padding: 30px;
+        box-sizing: border-box;
+    }       
+    .left-section {
+        max-width: 30%;
+	width: 27%;
+    	height: 90%;
+	left: 20px;
+        top: 3%;
+        background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+        border: 0.1px solid rgba(255, 255, 255, 0.1); 
+        display: flex;
+	box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+   	position: relative;
+	border-radius: 15px;
+        flex-direction: column;
+    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .left-section {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+    }
+    .right-section {
+        width: 70%;
+    	display: flex;
+        background-color: transparent;
+        position: relative;
+    }
+    .redirect-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .redirect-button:hover {
+        background-color: #218838;
+    }
+    .content {
+	margin-top: 5%;
+	margin-left: 05%;
+        height: 1200px;
+	width: 100%;
+    }
+.graph-container{
+        position: fixed;
+        top: 15%;
+        left: 50%;
+	bottom: 18%;
+        width: 70%;
+        background-color: #fff;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: center;
+	z-index: 1;
+
+            }
+
+.infobar {
+            position: fixed;
+            top: 5%;
+	    bottom: 87%;
+            left: 30%;
+	    right: 2%;
+            width: 68%;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+ 	    border: 0.1px solid rgba(255, 255, 255, 0.1); 
+	    box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
+	    border-radius: 10px;
+            text-align: right;
+            z-index: 10;
+	@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .infobar {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+        }
+
+    .bottom-menu {
+        position: fixed;
+        bottom: 0;
+        left: 30%;
+	right: 2%;
+        width: 68%;
+	bottom: 40px;
+        background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+  	border: 0.1px solid rgba(255, 255, 255, 0.1); 
+	box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+        padding: 10px;
+	border-radius: 10px;
+        box-sizing: border-box;
+        text-align: center;
+        z-index: 10;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .bottom-menu {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+    }
+  
+
+
+/* Search Result Container */
+#search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    width: 300px;
+    max-width: 600px;
+    max-height: 400px; /* Set a maximum height for the container */
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Add vertical scrolling when content exceeds the container's height */
+}
+
+/* Individual search result entry */
+.search-result {
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect for search results */
+.search-result:hover {
+    transform: translateY(-5px);
+}
+
+/* Styling for each field in the search result */
+.search-result p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+/* Specific styling for the amount */
+.search-result .amount {
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+/* Date styling */
+.search-result .date {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Error message styling */
+.error-message {
+    color: #e74c3c;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* No results found styling */
+.empty-message {
+    color: #555;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Responsive Design: Adjust layout for smaller screens */
+@media (max-width: 768px) {
+    #search-results {
+        max-width: 100%;
+    }
+}
+/* Custom scrollbar for webkit browsers */
+#search-results {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #888 transparent; /* Color of scrollbar */
+}
+
+/* Scrollbar for WebKit browsers (Chrome, Safari) */
+#search-results::-webkit-scrollbar {
+    width: 6px; /* Make the scrollbar thin like a stick */
+    background-color: transparent; /* Transparent background for the scrollbar track */
+}
+
+#search-results::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar */
+    border-radius: 10px; /* Make the scrollbar rounded */
+}
+
+#search-results::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker on hover */
+}
+
+/* Hide the scrollbar arrows (on some browsers) */
+#search-results::-webkit-scrollbar-button {
+    display: none;
+}
+
+
+
+/*   /* Container for the transaction history */
+        #transaction-history {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+	    width: 300px;
+            max-width: 900px;
+            max-height: 400px; /* Set a maximum height for the container */
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* Add vertical scrolling when content exceeds the container's height */
+        }
+
+        /* Individual transaction entry */
+        .transaction {
+            padding: 1rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        /* Hover effect for transactions */
+        .transaction:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Styling for each field in the transaction */
+        .transaction p {
+            margin: 0.5rem 0;
+            color: #333;
+        }
+
+        /* Specific styling for the amount */
+        .transaction .amount {
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        /* Date styling */
+        .transaction .date {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Error message styling */
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* No transactions found styling */
+        .empty {
+            color: #555;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Responsive Design: Adjust layout for smaller screens */
+        @media (max-width: 768px) {
+            #transaction-history {
+                max-width: 100%;
+            }
+        }*/
+
+
+	 ..profile-container {
+    text-align: center; /* Or any specific styles you want for this container */
+}
+
+.profile-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile-icon img {
+    width: 100%;
+    height: auto;
+}
+
+.profile-info, .edit-form {
+    display: none;
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    width: 220px;
+    text-align: justify;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+ .show {
+            display: block; 
+        }
+
+
+.avg-container {
+    width: 80%;
+    padding: 20px;
+    color: white;
+    font-family: Arial, sans-serif;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  border-radius: 15px;                  /* Rounded corners */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance the glass effect */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: center;
+    max-width: 600px;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .avg-container {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+}
+
+.avg-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.avg-item {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.avg-item h3 {
+    font-size: 16px;
+    color: white;
+}
+
+.avg-item p {
+    font-size: 20px;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+
+#balanceContainer {
+    width: 80%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: center;
+    max-width: 600px;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .balanceContainer {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+}
+
+.pre-btn {
+	    padding: 15px 30px; 
+            margin: 10px; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; 
+            transition: background 0.3s ease; 
+            background-color: blue; /* Blue background */
+            color: white; /* White text */
+        }
+.pre-btn:hover {
+            opacity: 0.8;
+	    background-color: darkblue;  
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    
+</head>
+<body>
+    <div class="section left-section">
+     <div class="avg-container">
+    <h2>Daily Financial Summary</h2>
+    <div class="avg-stats">
+        <div class="avg-item">
+            <h3>Predicted Daily Debits</h3>
+            <p id="avg-debits">₹0</p>
+        </div>
+        <div class="avg-item">
+            <h3>Predicted Daily Credits</h3>
+            <p id="avg-credits">₹0</p>
+        </div>
+        <div class="avg-item">
+            <h3>Predicted Credits - Debits</h3>
+            <p id="avg-difference">₹0</p>
+        </div>
+    </div>
+</div>
+       
+
+<div id="balanceContainer" style="text-align: center; font-size: 24px; margin: 20px;">
+    Balance: ₹<span id="balanceAmount">0.00</span>
+</div>
+
+        <button class="pre-btn" onclick="window.location.href='protren.html';">Transaction Trends Overview</button>
+
+    </div>
+    <div class="section right-section">
+	
+        <div class="infobar">
+            <div id="menu-section">
+                <div class="menu-container">
+                    <div class="menu-icon" onclick="toggleMenu()">&#x22EE;</div> <!-- Three dot icon -->
+                    <div class="menu-content">
+                         <a href="helppage.html">Help</a>
+                     
+                        <a href="aboutus.html">About Us</a>
+                    </div>
+                </div>
+            </div><div class="profile-container">
+    <div class="profile-icon" id="profileIcon">
+        <img src="uploads/profile.png" alt="Profile Image">
+    </div>
+
+    <div class="profile-info" id="profileInfo">
+        <p><strong>User ID:</strong> <span id="userId"></span></p>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+    </div>
+</div>
+
+</div>
+    
+    
+    <div class="content">
+        
+       <div id="myChart" style="width: 100%; height: 450px;"></div>
+
+    </div>
+    <div class="bottom-menu">
+        <div class="navbar" id="myNavbar">
+            <a href="testerdemo.html">Home</a>
+            <a href="credit.html">Credit Section</a>
+            <a href="debit.html">Debit Section</a>
+            <a href="predictdemo.html">Financial Predictions</a>
+            <a href="javascript:void(0);" class="icon" onclick="toggleResponsive()">&#9776;</a>
+        </div>
+    </div>
+
+    <script>
+
+//avg
+
+// Fetch the data from the PHP script
+fetch('avg.php')
+    .then(response => response.json())
+    .then(data => {
+        // Display the averages
+        document.getElementById('avg-debits').textContent = `₹${parseFloat(data.avg_debit).toFixed(2)}`;
+        document.getElementById('avg-credits').textContent = `₹${parseFloat(data.avg_credit).toFixed(2)}`;
+        document.getElementById('avg-difference').textContent = `₹${parseFloat(data.avg_difference).toFixed(2)}`;
+    })
+    .catch(error => console.error('Error:', error));
+
+
+//avgend
+
+
+//balance
+async function fetchAndDisplayBalance() {
+        try {
+            const response = await fetch('balance.php'); // Your PHP script path
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            // Update the balance display
+            document.getElementById('balanceAmount').innerText = data.balance.toFixed(2); // Format to 2 decimal places
+        } catch (error) {
+            console.error('Error fetching balance:', error);
+        }
+    }
+
+    // Initially load the balance
+    fetchAndDisplayBalance();
+
+//balanceend
+
+// Graph section
+
+       let isShowingDebit = true;  // Default to showing debit data
+
+    async function fetchAndPlotData(transactionType) {
+        try {
+            const endpoint = transactionType === 'debit' ? 'piegraphd.php' : 'piegraphc.php'; // PHP files for debit/credit
+            const response = await fetch(endpoint); // Fetch the appropriate data based on the type
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            const labels = data.map(item => item.description);
+            const values = data.map(item => item.total_amount);
+
+            // Clear the existing chart and re-create root
+            if (am5.Root.myChartRoot) {
+                am5.Root.myChartRoot.dispose();
+            }
+
+            const root = am5.Root.new("myChart");
+            am5.Root.myChartRoot = root;  // Save root reference
+
+            // Set themes
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            // Create a chart
+            const chart = root.container.children.push(am5percent.PieChart.new(root, {}));
+
+            // Create series
+            const series = chart.series.push(am5percent.PieSeries.new(root, {
+                valueField: "value",
+                categoryField: "category"
+            }));
+
+            // Add data to the series
+            const chartData = labels.map((label, index) => ({
+                category: transactionType === 'debit' ? `Debit: ${label}` : `Credit: ${label}`, // Prefix with "Debit" or "Credit"
+                value: values[index]
+            }));
+
+            series.data.setAll(chartData);
+
+            // Set up tooltip
+            series.slices.template.set("tooltipText", "{category}: {value}");
+
+            // Add hover effect
+            series.slices.template.events.on("over", function (event) {
+                const target = event.target;
+                target.set("scale", 1.1);
+            });
+
+            series.slices.template.events.on("out", function (event) {
+                const target = event.target;
+                target.set("scale", 1);
+            });
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    // Function to toggle between debit and credit data
+    function toggleTransactionType() {
+        isShowingDebit = !isShowingDebit;  // Toggle the type
+        const transactionType = isShowingDebit ? 'debit' : 'credit';
+        fetchAndPlotData(transactionType);  // Re-fetch and plot data for the new type
+    }
+
+    // Listen for double-tap event on the chart container
+    document.getElementById('myChart').addEventListener('dblclick', function () {
+        toggleTransactionType();  // Switch between credit and debit on double-tap
+    });
+
+    // Initially load debit data
+    fetchAndPlotData('debit');
+
+
+
+//graphend
+
+
+(function() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const profileIcon = document.getElementById('profileIcon');
+        if (!profileIcon) return; // Exit if the profile icon doesn't exist
+
+        const profileInfo = document.getElementById('profileInfo');
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const userIdField = document.getElementById('userId');
+
+        // Fetch the user profile data from the server
+        fetch('profile.php')
+            .then(response => response.json())
+            .then(data => {
+                nameField.textContent = data.fullname;
+                emailField.textContent = data.email;
+                userIdField.textContent = data.user_id; // Display user_id
+            })
+            .catch(error => {
+                console.error('Error fetching profile data:', error);
+            });
+
+        // Show profile info on click
+        profileIcon.addEventListener('click', () => {
+            profileInfo.classList.toggle('show'); // Toggle profile info visibility
+        });
+    });
+})();
+
+
+        function toggleMenu() {
+            const menuContainer = document.querySelector('.menu-container');
+            menuContainer.classList.toggle('active');
+        }
+
+        // Close the menu if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-icon')) {
+                const dropdowns = document.getElementsByClassName("menu-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        function toggleResponsive() {
+            var navbar = document.getElementById("myNavbar");
+            if (navbar.className === "navbar") {
+                navbar.className += " responsive";
+            } else {
+                navbar.className = "navbar";
+            }
+        }
+
+        // Highlight the active menu option based on the current page URL
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentLocation = window.location.pathname;
+            const menuItems = document.querySelectorAll(".navbar a");
+            
+            menuItems.forEach(item => {
+                if (item.getAttribute("href") === currentLocation.split('/').pop()) {
+                    item.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

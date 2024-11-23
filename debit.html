@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Tracker</title>
+    <style>
+         body {
+           display: flex;
+            height: 760px;
+	    width: 100%;
+	    background-image: url('https://th.bing.com/th/id/OIP.NRB681Y-NXsezEao-ipCaQHaEK?w=294&h=180&c=7&r=0&o=5&pid=1.7.jpg');
+            margin: 0;
+            padding: 0;
+	    overflow: hidden; 
+	    background-color: white;
+	    background-size: cover; /* Cover the entire background */
+           background-repeat:no-repeat;
+            background-position: center;
+        }
+
+	 .navbar {
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            //border: 0.1px solid rgba(255, 255, 255, 0.1); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+	    border-radius: 10px;
+            padding: 14px 20px;
+            transition: all 0.3s ease-in-out;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .navbar {
+    -webkit-backdrop-filter: blur(10px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(10px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+        }
+
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+	    border-radius: 25px;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            background-color: #ddd;
+            color: black;
+	    border-radius: 25px;
+        }
+
+        /* Responsive Navbar */
+        .navbar .icon {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar a:not(:first-child) {
+                display: none;
+            }
+
+            .navbar a.icon {
+                float: right;
+                display: block;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .navbar.responsive {
+                flex-direction: column;
+                align-items: flex-start;
+                transition: all 0.3s ease-in-out;
+            }
+
+            .navbar.responsive a {
+                display: block;
+                text-align: left;
+                padding: 14px;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .navbar.responsive .icon {
+                position: absolute;
+                top: 10px;
+                right: 20px;
+            }
+        }
+
+        /* Animation for smooth dropdown open */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+	 .menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
+       .menu-icon {
+        cursor: pointer;
+        font-size: 24px;
+        user-select: none;
+    margin-right: 1020px;
+    color: white;
+    margin-bottom: 0px;
+    margin-top: 15px;
+    bottom: 50%;
+    }
+
+        /* Style for the dropdown menu */
+        .menu-content {
+            display: none;
+            position: absolute;
+            top: 30px; /* Adjust the vertical position as needed */
+            right: 900px; /* Adjust this value to move the menu content to the right */
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+	    text-align: left;
+            border-radius: 5px;
+        }
+
+        .menu-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            white-space: nowrap;
+        }
+
+        .menu-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Show the dropdown menu when active */
+        .menu-container.active .menu-content {
+            display: block;
+        }
+      
+        .section {
+            height: 100%;
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+        }       
+        .left-section {
+        max-width: 30%;
+	width: 27%;
+    	height: 90%;
+	left: 20px;
+        top: 3%;
+        background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+        border: 0.1px solid rgba(255, 255, 255, 0.1); 
+        display: flex;
+	box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+   	position: relative;
+	border-radius: 15px;
+        flex-direction: column;
+    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .left-section {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+    }
+
+
+
+        .right-section {
+            width: 70%;
+	    display: flex;
+            background-color: transparent;
+            position: relative;
+        }
+        .redirect-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .redirect-button:hover {
+            background-color: #218838;
+        }
+        .content {
+            height: 1000px;
+        }
+	.graph-container{
+            position: fixed;
+            top: 15%;
+            left: 30%;
+            width: 70%;
+            background-color: transparent;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 1;
+        }
+
+	.infobar {
+            position: fixed;
+            top: 5%;
+	    bottom: 87%;
+            left: 30%;
+	    right: 2%;
+            width: 68%;
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+ 	    border: 0.1px solid rgba(255, 255, 255, 0.1); 
+	    box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+            box-sizing: border-box;
+	    border-radius: 10px;
+            text-align: right;
+            z-index: 10;
+	@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .infobar {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+        }
+
+    .bottom-menu {
+        position: fixed;
+        bottom: 0;
+        left: 30%;
+	right: 2%;
+        width: 68%;
+	bottom: 40px;
+        background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+  	border: 0.1px solid rgba(255, 255, 255, 0.1); 
+	box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+        padding: 10px;
+	border-radius: 10px;
+        box-sizing: border-box;
+        text-align: center;
+        z-index: 10;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .bottom-menu {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+    }
+
+       
+.profile-container {
+    text-align: center; /* Or any specific styles you want for this container */
+}
+
+.profile-icon {
+    width: 100px;
+    height: 100px;
+    right: -470px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile-icon img {
+    width: 100%;
+    height: auto;
+}
+
+.profile-info, .edit-form {
+    display: none;
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    width: 220px;
+    text-align: justify;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+ .show {
+            display: block; 
+        }
+
+.tbc{
+     width: 80%;
+    padding: 20px;
+    color: white;
+    
+    font-family: Arial, sans-serif;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  border-radius: 15px;                  /* Rounded corners */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance the glass effect */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin: 5px auto;
+    text-align: center;
+    max-width: 600px;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .credit-container {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+}
+
+	
+.credit-container {
+     width: 80%;
+    padding: 20px;
+    color: white;
+   
+    font-family: Arial, sans-serif;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  border-radius: 15px;                  /* Rounded corners */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance the glass effect */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin: 2px auto;
+    text-align: center;
+    max-width: 600px;
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .credit-container {
+    -webkit-backdrop-filter: blur(15px); /* Frosted glass effect for Safari */
+    backdrop-filter: blur(15px);         /* Frosted glass effect for other browsers */
+  }
+}
+
+}
+.credit-container h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.credit-container label {
+    color: white;
+    display: block;
+    margin: 3px 0 5px;
+    text-align: left;
+}
+.credit-container input[type="number"]::-webkit-outer-spin-button,
+.credit-container input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.credit-container input[type="number"],
+.credit-container input[type="text"],
+.credit-container input[type="date"] {
+   width: 60%; /* Make input fields take full width of the container */
+    padding: 0.5rem; /* Add padding for better touch targets */
+    margin: 2px; /* Add some space between fields */
+    border: 1px solid #ddd; /* Border color */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 1rem; /* Font size */
+    background: white;
+    border-color: #007BFF; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.credit-container fieldset {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 10px;
+    margin-top: 3px;
+}
+
+.credit-container fieldset legend {
+    color: white;
+}
+
+.credit-container button {
+    width: 60%;
+    padding: 10px;
+    margin-top: 35px;
+    background-color: skyblue; /* Corrected to valid color */
+    border: none;
+    border-radius: 5px;
+    color: white; /* Changed to white for better contrast */
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.credit-container button:hover {
+    background-color: darkblue;
+    color: white; /* Keep hover text white for readability */
+}
+
+.message {
+    padding: 10px;
+    margin: 10px auto;
+    width: 350px;
+    height: 300px
+    text-align: center;
+    font-size: 18px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.success {
+    background-color: white; /* Green for success */
+    color: #4CAF50;
+    z-index: 111;
+}
+
+.error {
+    background-color: white; /* Red for error */
+    color: #f44336;
+    z-index: 111;
+}
+
+
+/* Style for the dropdown */
+select {
+  width: 65%; /* Full width of the container */
+  padding: 0.5rem;
+  margin: 2px;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #007BFF;
+  background-color: white; /* Semi-transparent background */
+  border: 1px solid #ddd; 
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  font-size: 1rem; /* Text size */
+  border-radius: 10px; /* Rounded corners */
+  outline: none; /* Remove focus outline */
+  cursor: pointer; /* Add pointer cursor */
+}
+
+
+	profileContainer {
+        position: absolute; /* Absolute positioning */
+        top: 10px; /* Adjust as needed */
+	right: 20px;
+        left: 0; /* Align to the left */
+        width: 100%; /* Full width */
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+        padding: 10px;
+        box-sizing: border-box;
+        z-index: 10; /* Higher z-index to appear on top */
+        border-radius: 3px; /* Optional: rounded corners */
+    }
+     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="section left-section">
+	<div class="credit-container">
+        
+<form id="tf" action="creditp.php" method="POST">
+    <h2>Add Negative Transaction</h2>
+    
+       
+    <label for="transaction_type">Transaction Type:</label>
+    <select id="transaction_type" name="transaction_type" required>
+        
+        <option value="debit">Debit</option>
+        
+    </select>
+    
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" step="0.01" required>
+    <div class="underline"></div>
+    
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+    <div class="underline"></div>
+
+    <div class="select-wrapper">
+        <label for="description">Description:</label>
+        <select id="description" name="description" required>
+            <option value="Other">Other</option>
+            <option value="Salary">Rent</option>
+            <option value="emi">EMI</option>
+            <option value="loan">Loan</option>
+	    <option value="groccesories">Groccesories</option>
+	    <option value="food">Food</option>
+         </select>
+    </div>
+
+    <div class="input-box button">
+        <button type="submit">Add Transaction</button>
+    </div>
+</form>
+
+    </div>
+<div class="tbc">
+<div class="total-debit-container">
+        <h2>Total Debited Amount (Till Date)</h2>
+        <!-- Placeholder for the total debited amount -->
+        <p id="total-debited">Loading...</p>
+    </div>
+</div>
+        </div>
+        
+        <div class="section right-section">
+	<div class="infobar">
+	
+	<div id="menu-section">
+            <div class="menu-container">
+                <div class="menu-icon" onclick="toggleMenu()">&#x22EE;</div> <!-- Three dot icon -->
+                <div class="menu-content">
+                     <a href="helppage.html">Help</a>
+                     
+                        <a href="aboutus.html">About Us</a>
+                </div>
+            </div>
+        </div>
+     <div class="profile-container">
+    <div class="profile-icon" id="profileIcon">
+        <img src="uploads/profile.png" alt="Profile Image">
+    </div>
+
+    <div class="profile-info" id="profileInfo">
+        <p><strong>User ID:</strong> <span id="userId"></span></p>
+        <p><strong>Name:</strong> <span id="name"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+    </div>
+    </div>
+
+        </div>
+        <div class="content">
+	  <div class="graph-container">
+                     <canvas id="myChart" width="800" height="350"></canvas>
+            </div>
+        </div>
+        <div class="bottom-menu">
+            <div class="navbar" id="myNavbar">
+    <a href="testerdemo.html">Home</a>
+    <a href="credit.html">Credit Section</a>
+    <a href="debit.html">Debit Section</a>
+    <a href="predictdemo.html">Financial Predictions</a>
+    <a href="javascript:void(0);" class="icon" onclick="toggleResponsive()">&#9776;</a>
+</div>
+
+        </div>
+    </div>
+
+    <script>
+        let myChart;
+
+        async function fetchAndPlotData() {
+            try {
+                const response = await fetch('debitgraph.php'); // Replace with your PHP script path
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                const labels = data.map(item => item.date);
+                const dataset = data.map(item => item.total_amount);
+
+                const chartData = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Amount per Day',
+                        data: dataset,
+                        fill: true,
+                        borderColor: 'rgb(255, 0, 0)', // Red color for the border
+        		backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                        tension: 0.1
+                    }]
+                };
+
+                if (myChart) {
+                    myChart.data.labels = labels;
+                    myChart.data.datasets[0].data = dataset;
+                    myChart.update();
+                } else {
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Transaction Data Over Time'
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    display: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Date'
+                                    }
+                                },
+                                y: {
+                                    display: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Total Amount'
+                                    },
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+window.onload = function () {
+    fetchAndPlotData(); // Initial load
+    setInterval(fetchAndPlotData, 2000); // Refresh every 2 seconds (2000 milliseconds)
+};
+
+
+
+        async function fetchTransactionHistory() {
+            try {
+                const response = await fetch('fetch_transactions.php'); // PHP script to fetch transaction history
+                const data = await response.json();
+
+                const historyContainer = document.getElementById('transaction-history');
+                historyContainer.innerHTML = '';
+
+                if (data.error) {
+                    historyContainer.innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    data.forEach(transaction => {
+                        historyContainer.innerHTML += `
+                            <div class="transaction">
+                                <p class="amount"><strong>Amount:</strong> ${transaction.amount}</p>
+                                <p class="type"><strong>Type:</strong> ${transaction.transaction_type}</p>
+                                <p class="type"><strong>Date:</strong> ${transaction.date}</p>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching transaction history:', error);
+            }
+        }
+
+       async function performSearch() {
+            const query = document.getElementById('search-input').value;
+
+            try {
+                const response = await fetch('search_transactions.php?query=' + encodeURIComponent(query)); // Adjust the PHP script path if needed
+                const data = await response.json();
+
+                const searchResultsContainer = document.getElementById('search-results');
+                searchResultsContainer.innerHTML = '';
+
+                if (data.error) {
+                    searchResultsContainer.innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    data.forEach(transaction => {
+                        searchResultsContainer.innerHTML += `
+                            <div class="transaction">
+                                <p class="amount"><strong>Amount:</strong> ${transaction.amount}</p>
+                                <p class="type"><strong>Type:</strong> ${transaction.transaction_type}</p>
+                                <p class="type"><strong>Date:</strong> ${transaction.date}</p>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error('Error performing search:', error);
+            }
+        }
+
+        window.onload = () => {
+            fetchTransactionHistory();
+            fetchAndPlotData();
+
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            document.getElementById('search-input').addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        };
+
+ (function() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const profileIcon = document.getElementById('profileIcon');
+        if (!profileIcon) return; // Exit if the profile icon doesn't exist
+
+        const profileInfo = document.getElementById('profileInfo');
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const userIdField = document.getElementById('userId');
+
+        // Fetch the user profile data from the server
+        fetch('profile.php')
+            .then(response => response.json())
+            .then(data => {
+                nameField.textContent = data.fullname;
+                emailField.textContent = data.email;
+                userIdField.textContent = data.user_id; // Display user_id
+            })
+            .catch(error => {
+                console.error('Error fetching profile data:', error);
+            });
+
+        // Show profile info on click
+        profileIcon.addEventListener('click', () => {
+            profileInfo.classList.toggle('show'); // Toggle profile info visibility
+        });
+    });
+})();
+
+	   function toggleMenu() {
+            const menuContainer = document.querySelector('.menu-container');
+            menuContainer.classList.toggle('active');
+        }
+
+        // Close the menu if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-icon')) {
+                const dropdowns = document.getElementsByClassName("menu-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === 'block') {
+                        openDropdown.style.display = 'none';
+                    }
+                }
+            }
+        }
+	 function toggleResponsive() {
+        var navbar = document.getElementById("myNavbar");
+        if (navbar.className === "navbar") {
+            navbar.className += " responsive";
+        } else {
+            navbar.className = "navbar";
+        }
+    }
+
+    // Highlight the active menu option based on the current page URL
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentLocation = window.location.pathname;
+        const menuItems = document.querySelectorAll(".navbar a");
+        
+        menuItems.forEach(item => {
+            if (item.getAttribute("href") === currentLocation.split('/').pop()) {
+                item.classList.add("active");
+            }
+        });
+    });
+
+
+//insertalert
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('tf');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(form);
+
+        fetch('creditp.php', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            // Check if the response is OK
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse response as JSON
+        })
+        .then(data => {
+            // Check the success status in the JSON response
+            if (data.success) {
+                displayMessage(data.message, 'success');
+            } else {
+                displayMessage(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            displayMessage('An error occurred while adding the transaction.', 'error');
+        });
+    });
+
+    function displayMessage(message, type) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = `message ${type}`;
+        messageContainer.innerText = message;
+
+        // Append the message container to the body or any other container
+        document.body.appendChild(messageContainer);
+
+        // Remove the message after 3 seconds
+        setTimeout(() => {
+            messageContainer.remove();
+        }, 3000);
+    }
+});
+
+
+
+
+//insertalertend
+
+
+(function() {
+    // Self-contained function to avoid polluting global scope
+    function fetchTotalDebited() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'tdb.php', true); // PHP file that handles the total amount
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.error) {
+                        document.getElementById('total-debited').innerHTML = response.error;
+                    } else {
+                        document.getElementById('total-debited').innerHTML = '₹ ' + parseFloat(response.total_debited).toFixed(2);
+                    }
+                } catch (e) {
+                    console.error('Error parsing response JSON:', e);
+                    document.getElementById('total-debited').innerHTML = 'Error loading data';
+                }
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Request error');
+            document.getElementById('total-debited').innerHTML = 'Error loading data';
+        };
+        xhr.send();
+    }
+
+    // Add event listener to avoid conflict with other window.onload functions
+    window.addEventListener('load', function() {
+        fetchTotalDebited();
+    });
+})();
+
+
+
+    </script>
+</body>
+</html>

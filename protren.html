@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Trends</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://th.bing.com/th/id/OIP.NRB681Y-NXsezEao-ipCaQHaEK?w=294&h=180&c=7&r=0&o=5&pid=1.7.jpg');
+            color: #333;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 0.1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px 5px rgba(0, 0, 0, 0.4);
+            color: #444;
+        }
+
+        @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+            .container {
+                -webkit-backdrop-filter: blur(15px);
+                backdrop-filter: blur(15px);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .date-range-selector {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            padding: 10px;
+        }
+
+        .date-range-selector label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .date-range {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #update-trends-btn {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        #update-trends-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        #update-trends-btn:active {
+            background-color: #004080;
+            transform: translateY(0);
+        }
+
+        #update-trends-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+
+        .back-btn {
+            background-color: skyblue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: lightblue;
+        }
+
+        .spending-summary,
+        .category-breakdown,
+        .budget-recommendations {
+            padding: 15px;
+            margin-bottom: 30px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        ul {
+            padding: 0;
+            margin: 0 200px;
+        }
+
+        .section-heading {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .breakdown-item {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+
+        .breakdown-item:hover {
+            background-color: #e9e9e9;
+        }
+
+        .budget-recommendations p {
+            font-size: 16px;
+            color: #777;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            .date-range-selector {
+                flex-direction: column;
+            }
+
+            .update-btn {
+                margin-top: 10px;
+            }
+        }
+
+        select {
+            width: 55%;
+            padding: 0.5rem;
+            margin: 2px;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            border-color: #007BFF;
+            background-color: white;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" onclick="goBack()">Go Back</button>
+
+        <h2>Transaction Trends Overview</h2>
+
+        <div class="date-range-selector">
+            <label for="date-range">Select Date Range: </label>
+            <select id="date-range">
+                <option value="month">Last Month</option>
+                <option value="this_month">This Month</option>
+                <option value="week">Last Week</option>
+                <option value="quarter">Last Quarter</option>
+            </select>
+            <button id="update-trends-btn">Update Trends</button>
+        </div>
+
+        <div class="spending-summary">
+            <h3>Spending Summary</h3>
+            <p><strong>Total Income:</strong> ₹<span id="total-income">0</span></p>
+            <p><strong>Total Expenses:</strong> ₹<span id="total-expenses">0</span></p>
+            <p><strong>Average Spend:</strong> ₹<span id="average-spend">0</span></p>
+            <p><strong>Highest Spending Category:</strong> <span id="highest-category">N/A</span></p>
+        </div>
+
+        <div class="category-breakdown">
+            <h3>Category-wise Breakdown</h3>
+            <ul id="breakdown-list"></ul>
+        </div>
+
+        <div class="budget-recommendations">
+            <h3>Budget Recommendations</h3>
+            <p id="budget-recommendations">N/A</p>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+document.getElementById('update-trends-btn').addEventListener('click', function() {
+    const dateRange = document.getElementById('date-range').value;
+
+    // Validate the date range input
+    if (!dateRange) {
+        alert('Please select a date range.');
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'protre.php', true); // Update with the correct PHP filename
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function() {
+        if (this.status === 200) {
+            try {
+                // Parse the JSON response
+                const data = JSON.parse(this.responseText);
+
+                // Log the data for debugging purposes
+                console.log(data);
+
+                // Update HTML elements with the fetched data
+                document.getElementById('total-income').textContent = `Total Income: ₹${data.total_income || 'N/A'}`;
+                document.getElementById('total-expenses').textContent = `Total Expenses: ₹${data.total_expenses || 'N/A'}`;
+                document.getElementById('average-spend').textContent = `Average Spend: ₹${data.average_spend?.toFixed(2) || 'N/A'}`;
+                document.getElementById('highest-category').textContent = `Highest Spending Category: ${data.highest_description || 'N/A'}`;
+
+                // Update category breakdown
+                const breakdownList = document.getElementById('breakdown-list');
+                breakdownList.innerHTML = ''; // Clear any existing content
+                if (data.description_breakdown && Object.keys(data.description_breakdown).length > 0) {
+                    for (const [description, amounts] of Object.entries(data.description_breakdown)) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${description}: Income ₹${amounts.income}, Expenses ₹${amounts.expenses}`;
+                        breakdownList.appendChild(listItem);
+                    }
+                } else {
+                    breakdownList.textContent = 'No breakdown data available';
+                }
+
+                // Update budget recommendations
+                document.getElementById('budget-recommendations').textContent = data.budget_recommendations || 'N/A';
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                alert('Failed to parse server response.');
+            }
+        } else {
+            console.error('Server error:', this.status, this.statusText);
+            alert('Failed to retrieve data from the server.');
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Request error');
+        alert('There was a problem with the request.');
+    };
+
+    // Send the date range to the server
+    xhr.send(`date-range=${encodeURIComponent(dateRange)}`); // Update to match your PHP variable name
+});
+
+
+    </script>
+</body>
+</html>
